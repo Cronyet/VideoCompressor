@@ -1,5 +1,3 @@
-using System.Runtime.Intrinsics.X86;
-
 namespace VideoCompressor.Lib;
 
 public struct Trie
@@ -7,6 +5,7 @@ public struct Trie
     private int[,]? _next;
     private int _count = 0;
     private bool[]? _exist;
+    private readonly HashSet<string> _strings = new();
 
     public Trie()
     {
@@ -20,6 +19,7 @@ public struct Trie
 
     public void Insert(string s)
     {
+        _strings.Add(s);
         if (_next == null || _exist == null) return;
         var p = 0;
         foreach (var c in s.Select(t => t - 'a'))
@@ -43,4 +43,6 @@ public struct Trie
 
         return _exist[p];
     }
+
+    public string[] ToStringArray() => _strings.ToArray();
 }
