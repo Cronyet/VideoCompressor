@@ -37,12 +37,6 @@ public class Scanner
         return new ScanResult(extensions.ToStringArray(), files);
     }
 
-    //ToDo: 异步扫描版本
-    // public async Task<ScanResult> ScanAsync()
-    // {
-    //     List<string> _files = new();
-    // }
-
     public class ScanResult
     {
         public ScanResult(string[] extensions, List<string> files)
