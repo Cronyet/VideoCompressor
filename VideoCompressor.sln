@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCompressor.Lib", "Vide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCompressor", "VideoCompressor\VideoCompressor.csproj", "{9791C5F6-CDAF-463F-97FC-13326B679B63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCompressorUI", "VideoCompressorUI\VideoCompressorUI.csproj", "{307EB5A0-8D46-4D92-9A98-B652FD579ECD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{9791C5F6-CDAF-463F-97FC-13326B679B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9791C5F6-CDAF-463F-97FC-13326B679B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9791C5F6-CDAF-463F-97FC-13326B679B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{307EB5A0-8D46-4D92-9A98-B652FD579ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{307EB5A0-8D46-4D92-9A98-B652FD579ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{307EB5A0-8D46-4D92-9A98-B652FD579ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{307EB5A0-8D46-4D92-9A98-B652FD579ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
