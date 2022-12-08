@@ -2,12 +2,12 @@
 
 public class Scanner
 {
-    private readonly string _path;
-
     public Scanner(string path)
     {
-        _path = Path.GetFullPath(path);
+        RootPath = Path.GetFullPath(path);
     }
+
+    public string RootPath { get; }
 
     public ScanResult Scan()
     {
@@ -15,7 +15,7 @@ public class Scanner
         Trie extensions = new();
 
         Queue<DirectoryInfo> dirsToScan = new();
-        dirsToScan.Enqueue(new DirectoryInfo(_path));
+        dirsToScan.Enqueue(new DirectoryInfo(RootPath));
 
         while (dirsToScan.Count > 0)
         {
@@ -24,7 +24,7 @@ public class Scanner
                 dirsToScan.Enqueue(subdivide);
             foreach (var file in dir.GetFiles())
             {
-                var relatePath = Path.GetRelativePath(_path, file.FullName);
+                var relatePath = Path.GetRelativePath(RootPath, file.FullName);
                 var extension = file.Extension[1..];
                 files.Add(relatePath);
                 extensions.Insert(extension);

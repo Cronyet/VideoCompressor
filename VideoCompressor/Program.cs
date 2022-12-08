@@ -47,6 +47,11 @@ if (AskSureYesOrNo("Show Extensions? (y/n): ", "y", "n"))
     }
 }
 
+var execExts = Ask("Input execute extensions(,): ")
+    .Split(',',
+        StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+    .ToList();
+
 if (AskSureYesOrNo("Show Files? (y/n): ", "y", "n"))
 {
     Console.WriteLine("Files: ");
@@ -63,14 +68,31 @@ Console.WriteLine("Executing ...");
 
 foreach (var file in scanResult.Files)
 {
+    var fn = Path.GetFullPath($"{scanner.RootPath}/{file}");
+    if (!execExts.Contains(Path.GetExtension(fn))) continue;
     var cmd = template;
-    cmd = cmd.Replace("{file}", $"\"{file}\"");
-    cmd = cmd.Replace("{ext}", Path.GetExtension(file));
+    cmd = cmd.Replace("{file}", $"\"{fn}\"");
+#if Debug
+    Debug(cmd);
+#endif
+    cmd = cmd.Replace("{ext}", Path.GetExtension(fn));
+#if Debug
+    Debug(cmd);
+#endif
     MatchEvaluator evaluator = new(
-        match => $"{file.Replace(match.Groups[1].Value, match.Groups[2].Value)}"
+        match => $"\"{fn.Replace(match.Groups[1].Value, match.Groups[2].Value)}\""
     );
     cmd = new Regex(RegexStrings.FileReplace).Replace(cmd, evaluator);
+#if Debug
+    Debug(cmd);
+#endif
 
     Console.WriteLine($"Executing: {cmd}");
-    Process.Start(cmd);
+    var psi = new ProcessStartInfo("ffmpeg", cmd)
+    {
+        CreateNoWindow = false,
+    };
+    Process.Start(psi)?.WaitForExit();
 }
+
+Console.WriteLine("All tasks done!");
