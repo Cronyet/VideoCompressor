@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using VideoCompressor.Lib;
 
 string Ask(string tip)
@@ -25,6 +26,8 @@ bool AskSureYesOrNo(string tip, string yes, string no)
         if (rst != null) return (bool)rst;
     }
 }
+
+void Debug(string obj) => Console.WriteLine($">>> {obj}");
 
 Console.WriteLine("VideoCompressor v0.1.0");
 Console.WriteLine("Copyright (c) Dynesshely 2022");
@@ -54,7 +57,7 @@ if (AskSureYesOrNo("Show Files? (y/n): ", "y", "n"))
 Console.WriteLine($"Replace properties: \n" +
                   $"\t{{file}} -> File Path\n" +
                   $"\t{{ext}} -> Extension with dot\n" +
-                  $"\t{{file.rep(src, to)}} -> File Path and Replace src with to\n");
+                  $"\t{{file.rep src, to}} -> File Path and Replace src with to\n");
 var template = Ask("Input command template: ");
 Console.WriteLine("Executing ...");
 
@@ -63,8 +66,11 @@ foreach (var file in scanResult.Files)
     var cmd = template;
     cmd = cmd.Replace("{file}", $"\"{file}\"");
     cmd = cmd.Replace("{ext}", Path.GetExtension(file));
-    
-    
+    MatchEvaluator evaluator = new(
+        match => $"{file.Replace(match.Groups[1].Value, match.Groups[2].Value)}"
+    );
+    cmd = new Regex(RegexStrings.FileReplace).Replace(cmd, evaluator);
+
+    Console.WriteLine($"Executing: {cmd}");
     Process.Start(cmd);
 }
-
